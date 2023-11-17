@@ -14,7 +14,7 @@ class window:
         self.root.title('Space Invaders')
         self.root.attributes('-fullscreen', True)
         self.root['bg'] = 'black'
-        self.button=Button(self.root,text='Tchao', command=self.root.destroy)
+        self.button= Button(self.root,text='Tchao', command=self.root.destroy)
 
     def update(self, move):
         self.root.update()

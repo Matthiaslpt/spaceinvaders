@@ -5,10 +5,11 @@ from enemy import enemy
 
 win = window()
 player = player(win)
+win.button.pack(anchor='ne')
 win.canva.pack()
 win.root.bind("<KeyPress>", player.move)
 win.root.bind("<space>", player.shoot)
-win.button.pack(anchor='ne')
+
 enemy = enemy(win.root)
 enemy.can_enemy.pack()
 
