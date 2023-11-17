@@ -1,23 +1,35 @@
 from tkinter import *
+from PIL import Image,ImageTk
+from bullet import bullet
 
 class player:
     def __init__(self, win):
         self.win = win
         self.health = 100 
-        self.image = PhotoImage(file='image/player.png')
-        larg , hauteur = win.winfo_screenwidth(), win.winfo_screenheight()  
-        self.pos=[larg/2, 40]
-        self.can_player = Canvas(win , width=larg, height=150, background='white')
-        self.player_item = self.can_player.create_image(self.pos[0],self.pos[1],image=self.image)
+        self.w , self.h = win.root.winfo_screenwidth(), win.root.winfo_screenheight()  
+        self.pos=[self.w/2, self.h -100]
+        self.image = Image.open('image/player.png')
+        self.image = self.image.resize((150, 150))
+        self.image = ImageTk.PhotoImage(self.image)
+        self.player_item = self.win.canva.create_image(self.pos[0],self.pos[1],image=self.image)
+        self.file_bullets = []
         
     def move(self,event):
         touche = event.keysym
-        if touche == 'q' and self.pos[0] > 30:
-            self.can_player.move(self.player_item,-10,0)
-            self.pos[0]-=10
-        elif touche == 'd' and self.pos[0] < self.win.winfo_screenwidth() -30:
-            self.can_player.move(self.player_item,10,0)
-            self.pos[0]+=10
+        if touche == 'q' and self.pos[0] > 80:
+            self.win.canva.move(self.player_item,-30,0)
+            self.pos[0]-=30
+        elif touche == 'd' and self.pos[0] < self.win.root.winfo_screenwidth() - 80:
+            self.win.canva.move(self.player_item,30,0)
+            self.pos[0]+=30
 
-    def shoot(self,event):
-        touche = event.keysymds
+    def shoot(self,event=None):
+        x = bullet(self)
+        self.file_bullets.append(x)
+        for i in self.file_bullets:
+            i.move()
+
+    def afficher_projectiles(self):
+        if len(self.file_bullets)>0:
+            for bullet in self.file_bullets:
+                bullet.can.place()
