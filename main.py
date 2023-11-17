@@ -1,14 +1,15 @@
 from tkinter import *
+from window import window
 from player import player
 
 
-win = Tk()
-w, h = win.winfo_screenwidth(), win.winfo_screenheight()
-win.geometry("%dx%d" % (w,h))
-win.title('Space Invaders')
-win.attributes('-fullscreen', True)
-win['bg'] = 'black'
-player = player(win)
-player.can_player.pack()
 
-win.mainloop()
+
+
+
+
+win = window()
+player = player(win.root)
+player.can_player.pack(side=BOTTOM)
+win.root.bind("<KeyPress>", player.move)
+win.root.mainloop()
