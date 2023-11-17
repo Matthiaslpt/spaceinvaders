@@ -1,4 +1,5 @@
 from tkinter import *
+from window import window
 from player import player
 from enemy import enemy
 
@@ -16,4 +17,12 @@ enemy.can_enemy.pack()
 quit=Button(win,text='Tchao', command=win.destroy)
 quit.pack(anchor='ne',side='top')
 
-win.mainloop()
+
+
+
+
+win = window()
+player = player(win.root)
+player.can_player.pack(side=BOTTOM)
+win.root.bind("<KeyPress>", player.move)
+win.root.mainloop()
