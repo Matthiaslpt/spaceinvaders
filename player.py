@@ -13,6 +13,7 @@ class player:
         self.image = ImageTk.PhotoImage(self.image)
         self.player_item = self.win.canva.create_image(self.pos[0],self.pos[1],image=self.image)
         self.file_bullets = []
+        self.nb_tirs = 0
         
     def move(self,event):
         touche = event.keysym
@@ -24,10 +25,12 @@ class player:
             self.pos[0]+=30
 
     def shoot(self,event=None):
-        x = bullet(self)
-        self.file_bullets.append(x)
+        self.file_bullets.append(bullet(self, self.nb_tirs))
+        self.nb_tirs+=1
         for i in self.file_bullets:
             i.move()
+            if i.pos[1]< 250:
+                self.file_bullets.pop(-1)
 
     def afficher_projectiles(self):
         if len(self.file_bullets)>0:
