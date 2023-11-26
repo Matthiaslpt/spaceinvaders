@@ -1,7 +1,7 @@
 from tkinter import *
 from PIL import Image,ImageTk
 
-class window:
+class Window:
     def __init__(self):
         self.root = Tk()
         self.w, self.h = self.root.winfo_screenwidth(), self.root.winfo_screenheight()
@@ -16,8 +16,5 @@ class window:
         self.root['bg'] = 'black'
         self.button= Button(self.root,text='Tchao', command=self.root.destroy)
 
-    def update(self, move):
-        self.root.update()
-        self.root.after(10, move)
-        
+
         

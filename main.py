@@ -1,17 +1,16 @@
 from tkinter import *
-from window import window
-from player import player
-from enemy import enemy
+from window import Window
+from player import Player
 
-win = window()
-player = player(win)
+win = Window()
+player = Player(win)
 win.button.pack(anchor='ne')
 win.canva.pack()
-win.root.bind("<KeyPress>", player.move)
+win.root.bind("<Key>", player.move)
+win.root.bind("<KeyRelease>", player.stop_moving)
 win.root.bind("<space>", player.shoot)
 
-enemy = enemy(win.root)
-enemy.can_enemy.pack()
+
 
 
 
