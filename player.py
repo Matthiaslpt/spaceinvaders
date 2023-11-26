@@ -27,12 +27,12 @@ class player:
     def shoot(self,event=None):
         self.file_bullets.append(bullet(self, self.nb_tirs))
         self.nb_tirs+=1
+        print("tir")
         for i in self.file_bullets:
             i.move()
-            if i.pos[1]< 250:
-                self.file_bullets.pop(-1)
+
 
     def afficher_projectiles(self):
         if len(self.file_bullets)>0:
             for bullet in self.file_bullets:
-                bullet.can.place()
+                bullet.place()
