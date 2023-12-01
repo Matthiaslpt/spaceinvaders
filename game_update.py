@@ -6,7 +6,6 @@ class Game_update:
         self.win = win
         self.player = player
         self.enemy_liste = []
-        self.file_bullets_aliens = []
         self.enemy_rounds()
         self.check_collisions()
 

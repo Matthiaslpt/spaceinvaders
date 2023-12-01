@@ -15,6 +15,7 @@ class Window:
         self.root.attributes('-fullscreen', True)
         self.root['bg'] = 'black'
         self.button= Button(self.root,text='Tchao', command=self.root.destroy)
+        self.file_bullets_alien = []
 
 
         

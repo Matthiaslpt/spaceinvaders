@@ -33,15 +33,15 @@ class Player:
 
     def shoot(self, event=None):
         new_bullet = Bullet(self, 1)
-        self.file_bullets.append(new_bullet)
+        self.file_bullets_player.append(new_bullet)
 
     def update_bullets(self):
-        for bullet in self.file_bullets:
+        for bullet in self.file_bullets_player:
             bullet.move()
 
         self.win.root.after(10, self.update_bullets)
 
     def afficher_projectiles(self):
-        if len(self.file_bullets) > 0:
-            for bullet in self.file_bullets:
+        if len(self.file_bullets_player) > 0:
+            for bullet in self.file_bullets_player:
                 bullet.place()
