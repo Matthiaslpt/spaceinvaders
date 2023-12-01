@@ -15,8 +15,4 @@ win.root.bind("<space>", player.shoot)
 win.root.bind("<Escape>", lambda event: win.root.destroy())
 
 
-
-
-
-
 win.root.mainloop()

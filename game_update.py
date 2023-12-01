@@ -5,51 +5,42 @@ class Game_update:
     def __init__(self,win, player):
         self.win = win
         self.player = player
-        self.enemy_liste = []
         self.enemy_rounds()
         self.check_collisions()
 
 
     def enemy_rounds(self):
-        if len(self.enemy_liste) < 6:
-            self.enemy_liste.append(Enemy(self.win))
+        if len(self.win.enemy_liste) < 6:
+            self.win.enemy_liste.append(Enemy(self.win))
             self.win.root.after(5000, self.enemy_rounds)
 
 
     def check_collisions(self):
-        for bullet in self.player.file_bullets:
-            bullet_coords = self.win.canva.coords(bullet.bullet_item)
-            bullet_width, bullet_height = 70, 70
-            for enemy in self.enemy_liste:
-                enemy_coords = self.win.canva.coords(enemy.enemy_item)
-                enemy_width, enemy_height = 200, 150
-                # Calculate the full bounding box for bullets and enemies
-                bullet_bbox = (
-                    bullet_coords[0], bullet_coords[1],
-                    bullet_coords[0] + bullet_width, bullet_coords[1] + bullet_height
-                )
+        if self.player.file_bullets != []:
+            for bullet in self.player.file_bullets:
+                bullet_coords = self.win.canva.coords(bullet.bullet_item)
+                bullet_bbox = self.calculate_bbox(bullet_coords, 70, 70)  
 
-                enemy_bbox = (
-                    enemy_coords[0], enemy_coords[1],
-                    enemy_coords[0] + enemy_width, enemy_coords[1] + enemy_height
-                )
+                overlapping_items = self.win.canva.find_overlapping(*bullet_bbox)
 
-                # Check for collision using the full bounding boxes
-                if (
-                    bullet_bbox[0] < enemy_bbox[2] and
-                    bullet_bbox[2] > enemy_bbox[0] and
-                    bullet_bbox[1] < enemy_bbox[3] and
-                    bullet_bbox[3] > enemy_bbox[1]
-                ):
-                    # Handle the collision here (e.g., remove bullet and enemy)
-                    self.win.canva.delete(bullet.bullet_item)
-                    self.win.canva.delete(enemy.enemy_item)
-                    self.player.file_bullets.remove(bullet)
-                    self.enemy_liste.remove(enemy)
+                overlapping_items = [item for item in overlapping_items if item not in [bullet.bullet_item, 1]]
 
-        # Call the check_collisions method recursively after a delay (e.g., 10 milliseconds)
+                for enemy in self.win.enemy_liste:
+                    if enemy.enemy_item in overlapping_items:
+                        self.win.canva.delete(bullet.bullet_item)
+                        self.win.canva.delete(enemy.enemy_item)
+                        self.player.file_bullets.remove(bullet)
+                        self.win.enemy_liste.remove(enemy)
+                        enemy.shooting = False
+
+
         self.win.root.after(10, self.check_collisions)
-            
+
+    def calculate_bbox(self, coords, width, height):
+        x1, y1 = coords[0], coords[1]
+        x2, y2 = x1 + width, y1 + height
+        return x1, y1, x2, y2
+
 
 
 

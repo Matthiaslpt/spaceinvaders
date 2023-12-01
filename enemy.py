@@ -14,6 +14,7 @@ class Enemy:
         self.image = self.image.resize((200, 150))
         self.image = ImageTk.PhotoImage(self.image)
         self.enemy_item = self.win.canva.create_image(self.pos[0], self.pos[1], image=self.image)
+        self.shooting = True
         self.move()
         self.shoot()
 
@@ -31,7 +32,8 @@ class Enemy:
 
 
     def shoot(self):
-        new_bullet = Bullet(self, -1, self.win)
-        self.win.file_bullets.append(new_bullet)
-        self.win.root.after(6000, self.shoot)
+        if self.shooting:
+            new_bullet = Bullet(self, -1, self.win)
+            self.win.file_bullets.append(new_bullet)
+            self.win.root.after(6000, self.shoot)
 

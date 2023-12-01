@@ -5,7 +5,7 @@ from bullet import Bullet
 class Player:
     def __init__(self, win):
         self.win = win
-        self.health = 100
+        self.health = 3
         self.w, self.h = win.root.winfo_screenwidth(), win.root.winfo_screenheight()
         self.pos = [self.w / 2, self.h - 100]
         self.image = Image.open('image/player.png')
@@ -23,7 +23,7 @@ class Player:
         if touche == 'q' and self.pos[0] > 80:
             self.win.canva.move(self.player_item, -30, 0)
             self.pos[0] -= 30
-        elif touche == 'd' and self.pos[0] < self.win.root.winfo_screenwidth() - 80:
+        elif touche == 'd' and self.pos[0] < self.w - 80:
             self.win.canva.move(self.player_item, 30, 0)
             self.pos[0] += 30
 

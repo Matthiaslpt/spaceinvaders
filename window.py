@@ -16,6 +16,7 @@ class Window:
         self.root['bg'] = 'black'
         self.button= Button(self.root,text='Tchao', command=self.root.destroy)
         self.file_bullets = []
+        self.enemy_liste = []
 
 
         
