@@ -12,7 +12,7 @@ class Player:
         self.image = self.image.resize((150, 150))
         self.image = ImageTk.PhotoImage(self.image)
         self.player_item = self.win.canva.create_image(self.pos[0], self.pos[1], image=self.image)
-        self.file_bullets = []
+        self.file_bullets_player = []
         self.nb_tirs = 0
 
         # Start the update loop for bullets
@@ -32,7 +32,7 @@ class Player:
         pass
 
     def shoot(self, event=None):
-        new_bullet = Bullet(self, len(self.file_bullets) + 1)
+        new_bullet = Bullet(self, 1)
         self.file_bullets.append(new_bullet)
 
     def update_bullets(self):
