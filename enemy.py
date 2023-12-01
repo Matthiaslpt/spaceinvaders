@@ -31,8 +31,7 @@ class Enemy:
 
 
     def shoot(self):
-        print('poum')
-        new_bullet = Bullet(self, -1)
-        self.win.file_bullets_alien.append(new_bullet)
-        self.win.root.after(4000, self.shoot)
+        new_bullet = Bullet(self, -1, self.win)
+        self.win.file_bullets.append(new_bullet)
+        self.win.root.after(6000, self.shoot)
 

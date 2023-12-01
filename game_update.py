@@ -17,7 +17,7 @@ class Game_update:
 
 
     def check_collisions(self):
-        for bullet in self.player.file_bullets_player:
+        for bullet in self.player.file_bullets:
             bullet_coords = self.win.canva.coords(bullet.bullet_item)
             bullet_width, bullet_height = 70, 70
             for enemy in self.enemy_liste:
@@ -44,7 +44,7 @@ class Game_update:
                     # Handle the collision here (e.g., remove bullet and enemy)
                     self.win.canva.delete(bullet.bullet_item)
                     self.win.canva.delete(enemy.enemy_item)
-                    self.player.file_bullets_player.remove(bullet)
+                    self.player.file_bullets.remove(bullet)
                     self.enemy_liste.remove(enemy)
 
         # Call the check_collisions method recursively after a delay (e.g., 10 milliseconds)
