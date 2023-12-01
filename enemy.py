@@ -5,9 +5,9 @@ from bullet import Bullet
 
 class Enemy:
     def __init__(self, win):
-        self.larg, self.haut = win.root.winfo_screenwidth(), win.root.winfo_screenheight()
         self.win = win
-        self.pos = [r.randint(50, self.larg-90), 60]
+        self.win.w, self.win.h = win.root.winfo_screenwidth(), win.root.winfo_screenheight()
+        self.pos = [r.randint(50, self.win.w-90), 60]
         self.direction = 1
         self.speed = 4
         self.image = Image.open('image/alien.png')
@@ -19,7 +19,7 @@ class Enemy:
         self.shoot()
 
     def move(self):
-        if self.pos[0] < +40 or self.pos[0] > self.larg -80:
+        if self.pos[0] < +40 or self.pos[0] > self.win.w -80:
             self.direction *= -1
         elif self.pos[0] < 45:
             self.pos[1] += 100

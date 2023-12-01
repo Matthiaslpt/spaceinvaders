@@ -5,7 +5,6 @@ class Bullet:
     def __init__(self, item, direction, win):
         self.item = item
         self.win = win
-        self.h = win.root.winfo_screenwidth()
         self.pos = [item.pos[0], item.pos[1]]
         self.image = Image.open('image/bullet.png')
         self.image = self.image.resize((70, 70))
@@ -16,7 +15,7 @@ class Bullet:
     def move(self):
         self.item.win.canva.move(self.bullet_item, 0, -1*self.direction)
         self.pos[1] -= 1* self.direction
-        if self.pos[1] > 0 and self.pos[1] < self.h:
+        if self.pos[1] > 0 and self.pos[1] < self.win.h:
             # Call the move method recursively after a delay (e.g., 10 milliseconds)
             self.item.win.root.after(10, self.move)
         else:
