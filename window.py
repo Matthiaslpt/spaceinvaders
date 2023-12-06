@@ -31,24 +31,32 @@ class Window:
     
     def display_game_over(self):
 
-        self.game_over_canvas = Canvas(self.root, width=self.w, height=self.h, background='black', borderwidth=0, highlightthickness=0)
-        self.game_over_canvas.place(relx=0, rely=0)
+        game_over_width = int(self.w * 1/4)
+        game_over_height = int(self.h * 1/4)
+
+        # Calculate the coordinates to place the canvas at the center
+        x = (self.w - game_over_width) // 2
+        y = (self.h - game_over_height) // 2
+
+        # Create a canvas for game over elements
+        self.game_over_canvas = Canvas(self.root, width=game_over_width, height=game_over_height, background='black', borderwidth=0, highlightthickness=0)
+        self.game_over_canvas.place(x=x, y=y)
 
 
         # Create a game over label
         game_over_label = Label(
-            self.game_over_canvas, text="Game Over", font=("Helvetica", 24), fg="red"
+            self.game_over_canvas, text="Game Over", font=("Helvetica", 24), fg="red", background='black'
         )
         game_over_label.place(relx=0.5, rely=0.5, anchor="center")
 
         # Create restart button
         restart_button = Button(self.game_over_canvas, text="Restart", command=self.restart_game)
-        restart_button.place(relx=0.4, rely=0.6, anchor="center")
+        restart_button.place(relx=0.4, rely=0.7, anchor="center")
 
 
         # Create quit button
         quit_button = Button(self.game_over_canvas, text="Quit", command=self.quit_game)
-        quit_button.place(relx=0.6, rely=0.6, anchor="center")
+        quit_button.place(relx=0.6, rely=0.7, anchor="center")
 
     def restart_game(self):
         # Reset game state and restat

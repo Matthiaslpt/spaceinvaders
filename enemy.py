@@ -29,6 +29,10 @@ class Enemy:
             self.pos[0] += self.speed * self.direction
             self.win.canva.move(self.enemy_item, self.speed * self.direction, 0)  
             self.win.root.after(10, self.move)
+            if self.pos[1] > 950:
+                self.health = 0
+                self.win.game_over = True
+                self.win.display_game_over()
 
 
 
