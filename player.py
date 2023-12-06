@@ -22,24 +22,31 @@ class Player:
         self.update_bullets()
 
     def move(self, event):
-        touche = event.keysym
-        if touche == 'q' and self.pos[0] > 80:
-            self.win.canva.move(self.player_item, -30, 0)
-            self.pos[0] -= 30
-        elif touche == 'd' and self.pos[0] < self.win.w - 80:
-            self.win.canva.move(self.player_item, 30, 0)
-            self.pos[0] += 30
+        if not self.win.game_over:
+            touche = event.keysym
+            if touche == 'q' and self.pos[0] > 80:
+                self.win.canva.move(self.player_item, -30, 0)
+                self.pos[0] -= 30
+            elif touche == 'd' and self.pos[0] < self.win.w - 80:
+                self.win.canva.move(self.player_item, 30, 0)
+                self.pos[0] += 30
+            
+            elif touche == 'k':
+                self.health = 0
+                self.win.game_over = True
+                self.win.display_game_over()
 
     def stop_moving(self, event):
         # Add logic to stop continuous movement if needed
         pass
 
     def shoot(self, event=None):
-        current_time = time.time()
-        if current_time - self.last_shot_time >= self.cooldown_time:
-            new_bullet = Bullet(self, 1, self.win)
-            self.file_bullets.append(new_bullet)
-            self.last_shot_time = current_time
+        if not self.win.game_over:
+            current_time = time.time()
+            if current_time - self.last_shot_time >= self.cooldown_time:
+                new_bullet = Bullet(self, 1, self.win)
+                self.file_bullets.append(new_bullet)
+                self.last_shot_time = current_time
 
     def update_bullets(self):
         for bullet in self.file_bullets:
@@ -47,4 +54,5 @@ class Player:
         for bullet in self.win.file_bullets:
             bullet.move()
 
-        self.win.root.after(10, self.update_bullets)
+        if not self.win.game_over:
+            self.win.root.after(10, self.update_bullets)

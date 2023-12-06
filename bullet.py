@@ -13,20 +13,21 @@ class Bullet:
         self.direction = direction
 
     def move(self):
-        self.item.win.canva.move(self.bullet_item, 0, -1*self.direction)
-        self.pos[1] -= 1* self.direction
-        if self.pos[1] > 0 and self.pos[1] < self.win.h:
-            # Call the move method recursively after a delay (e.g., 10 milliseconds)
-            self.item.win.root.after(10, self.move)
-        else:
-            if self.direction == 1:
-                if self in self.item.file_bullets:
-                    self.item.win.canva.delete(self.bullet_item)
-                    self.item.file_bullets.remove(self)
-            elif self.direction == -1: 
-                if self in self.win.file_bullets:
-                    self.item.win.canva.delete(self.bullet_item)
-                    self.win.file_bullets.remove(self)
+        if not self.win.game_over:
+            self.item.win.canva.move(self.bullet_item, 0, -1*self.direction)
+            self.pos[1] -= 1* self.direction
+            if self.pos[1] > 0 and self.pos[1] < self.win.h:
+                # Call the move method recursively after a delay (e.g., 10 milliseconds)
+                self.item.win.root.after(10, self.move)
+            else:
+                if self.direction == 1:
+                    if self in self.item.file_bullets:
+                        self.item.win.canva.delete(self.bullet_item)
+                        self.item.file_bullets.remove(self)
+                elif self.direction == -1: 
+                    if self in self.win.file_bullets:
+                        self.item.win.canva.delete(self.bullet_item)
+                        self.win.file_bullets.remove(self)
         
 
     def place(self):

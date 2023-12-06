@@ -19,20 +19,21 @@ class Enemy:
         self.shoot()
 
     def move(self):
-        if self.pos[0] < +40 or self.pos[0] > self.win.w -80:
-            self.direction *= -1
-        elif self.pos[0] < 45:
-            self.pos[1] += 100
-            self.win.canva.move(self.enemy_item, 0, 100)  
-            self.direction *= -1 
-        self.pos[0] += self.speed * self.direction
-        self.win.canva.move(self.enemy_item, self.speed * self.direction, 0)  
-        self.win.root.after(10, self.move)
+        if not self.win.game_over:
+            if self.pos[0] < +40 or self.pos[0] > self.win.w -80:
+                self.direction *= -1
+            elif self.pos[0] < 45:
+                self.pos[1] += 100
+                self.win.canva.move(self.enemy_item, 0, 100)  
+                self.direction *= -1 
+            self.pos[0] += self.speed * self.direction
+            self.win.canva.move(self.enemy_item, self.speed * self.direction, 0)  
+            self.win.root.after(10, self.move)
 
 
 
     def shoot(self):
-        if self.shooting:
+        if self.shooting and not self.win.game_over:
             new_bullet = Bullet(self, -1, self.win)
             self.win.file_bullets.append(new_bullet)
             self.win.root.after(6000, self.shoot)
