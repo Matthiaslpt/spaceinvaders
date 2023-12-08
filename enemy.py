@@ -1,25 +1,44 @@
 from tkinter import *
 import random as r
+from PIL import Image, ImageTk
+from bullet import Bullet
 
 class Enemy:
     def __init__(self, win):
         self.win = win
-        self.p = [r.randint(0, win.winfo_screenwidth()), 200]
+        self.win.w, self.win.h = win.root.winfo_screenwidth(), win.root.winfo_screenheight()
+        self.pos = [r.randint(50, self.win.w-90), 60]
         self.direction = 1
-        self.speed = 2
-        larg, haut = win.winfo_screenwidth(), win.winfo_screenheight()  
-        self.pos = (larg, haut)
-        self.image_png = PhotoImage(file='image/alien.png')
-        self.enemy_item = self.can_enemy.create_image(larg/2, haut/2, image=self.image_png)
+        self.speed = 4
+        self.image = Image.open('image/alien.png')
+        self.image = self.image.resize((200, 150))
+        self.image = ImageTk.PhotoImage(self.image)
+        self.enemy_item = self.win.canva.create_image(self.pos[0], self.pos[1], image=self.image)
+        self.shooting = True
         self.move()
+        self.shoot()
 
     def move(self):
-        if self.p[0] < 15 or self.p[0] > 1900:
-            self.direction *= -1
-        elif self.p[0] < 10:
-            self.p[1] += 100
-        self.p[0] += self.speed * self.direction
-        self.can_enemy.move(self.enemy_item, self.speed * self.direction, 0)  
-        self.win.after(10, self.move)
+        if not self.win.game_over:
+            if self.pos[0] < +40 or self.pos[0] > self.win.w -80:
+                self.direction *= -1
+            elif self.pos[0] < 45:
+                self.pos[1] += 100
+                self.win.canva.move(self.enemy_item, 0, 100)  
+                self.direction *= -1 
+            self.pos[0] += self.speed * self.direction
+            self.win.canva.move(self.enemy_item, self.speed * self.direction, 0)  
+            self.win.root.after(10, self.move)
+            if self.pos[1] > 950:
+                self.health = 0
+                self.win.game_over = True
+                self.win.display_game_over()
 
+
+
+    def shoot(self):
+        if self.shooting and not self.win.game_over:
+            new_bullet = Bullet(self, -1, self.win)
+            self.win.file_bullets.append(new_bullet)
+            self.win.root.after(6000, self.shoot)
 
