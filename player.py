@@ -15,8 +15,22 @@ class Player:
         self.file_bullets = []
         self.nb_tirs = 0
 
+
+        win.root.bind("<q>", self.left)
+        win.root.bind("<d>", self.right)
+        win.root.bind("<KeyRelease>", self.stop)
+        win.root.bind("<space>", self.shoot)
         # Start the update loop for bullets
         self.update_bullets()
+
+
+    def left(self):
+        self.win.canva.move(self.player_item, -30, 0)
+        self.pos[0] -= 30
+
+    def right(self):
+        self.win.canva.move(self.player_item, 30, 0)
+        self.pos[0] += 30
 
     def move(self, event):
         touche = event.keysym
@@ -27,8 +41,7 @@ class Player:
             self.win.canva.move(self.player_item, 30, 0)
             self.pos[0] += 30
 
-    def stop_moving(self, event):
-        # Add logic to stop continuous movement if needed
+    def stop(self, event):
         pass
 
     def shoot(self, event=None):

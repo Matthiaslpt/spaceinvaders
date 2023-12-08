@@ -6,9 +6,7 @@ win = Window()
 player = Player(win)
 win.button.pack(anchor='ne')
 win.canva.pack()
-win.root.bind("<Key>", player.move)
-win.root.bind("<KeyRelease>", player.stop_moving)
-win.root.bind("<space>", player.shoot)
+
 
 
 
