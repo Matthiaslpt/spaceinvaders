@@ -7,6 +7,7 @@ class Player:
     def __init__(self, win):
         self.win = win
         self.health = 3
+        self.score = 0  # Add a score variable
         self.pos = [self.win.w / 2, self.win.h - 100]
         self.image = Image.open('image/player.png')
         self.image = self.image.resize((150, 150))
@@ -18,22 +19,18 @@ class Player:
         self.cooldown_time = 0.3
         self.last_shot_time = 0.0
 
+        # Add labels for life counter and score display
+        self.life_label = Label(self.win.root, text=f"Vies: {self.health}", font=("Helvetica", 16), fg="white", bg="black")
+        self.life_label.place(relx=0.05, rely=0.05, anchor="w")
 
-        win.root.bind("<q>", self.left)
-        win.root.bind("<d>", self.right)
+        self.score_label = Label(self.win.root, text=f"Score: {self.score}", font=("Helvetica", 16), fg="white", bg="black")
+        self.score_label.place(relx=0.95, rely=0.05, anchor="e")
+
+        self.update_labels()  # Start updating labels in the game loop
+
         win.root.bind("<KeyRelease>", self.stop)
         win.root.bind("<space>", self.shoot)
-        # Start the update loop for bullets
         self.update_bullets()
-
-
-    def left(self):
-        self.win.canva.move(self.player_item, -30, 0)
-        self.pos[0] -= 30
-
-    def right(self):
-        self.win.canva.move(self.player_item, 30, 0)
-        self.pos[0] += 30
 
     def move(self, event):
         if not self.win.game_over:
@@ -44,7 +41,6 @@ class Player:
             elif touche == 'd' and self.pos[0] < self.win.w - 80:
                 self.win.canva.move(self.player_item, 30, 0)
                 self.pos[0] += 30
-            
             elif touche == 'k':
                 self.health = 0
                 self.win.game_over = True
@@ -68,4 +64,28 @@ class Player:
             bullet.move()
 
         if not self.win.game_over:
-            self.win.root.after(10, self.update_bullets)
+            self.win.root.after(50, self.update_bullets)
+
+
+    def update_labels(self):
+        # Update the life counter and score display
+        self.life_label.config(text=f"Vies: {self.health}")
+        self.score_label.config(text=f"Score: {self.score}")
+
+        # Check game over condition and update labels in the game loop
+        if not self.win.game_over:
+            self.win.root.after(100, self.update_labels)
+
+
+    def update_obstacle_collision(self):
+        if self.file_bullets:
+            for bullet in self.file_bullets:
+                bullet_coords = self.win.canva.coords(bullet.bullet_item)
+                bullet_bbox = self.calculate_bbox(bullet_coords, 70, 70)
+
+                for ilot in self.win.ilots_list:
+                    ilot_coords = self.win.canva.coords(ilot.ilots_item)
+                    if self.check_collision(bullet_bbox, ilot_coords):
+                        ilot.damage()
+                        self.win.canva.delete(bullet.bullet_item)
+                        self.file_bullets.remove(bullet)

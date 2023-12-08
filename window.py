@@ -2,6 +2,7 @@ from tkinter import *
 from PIL import Image,ImageTk
 from player import Player
 from game_update import Game_update
+from ilots import Ilots
 
 class Window:
     def __init__(self):
@@ -23,10 +24,7 @@ class Window:
         self.player = Player(self)
         updt = Game_update(self, self.player)
         self.button.pack(anchor='ne')
-
-
         self.root.bind("<Key>", self.player.move)
-        self.root.bind("<KeyRelease>", self.player.stop_moving)
         self.root.bind("<Escape>", lambda event: self.root.destroy())
     
     def display_game_over(self):
@@ -81,7 +79,6 @@ class Window:
         self.player = Player(self)
         self.canva.pack()
         self.root.bind("<Key>", self.player.move)
-        self.root.bind("<KeyRelease>", self.player.stop_moving)
         self.root.bind("<Escape>", lambda event: self.root.destroy())
         updt = Game_update(self, self.player)
 
