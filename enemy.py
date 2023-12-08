@@ -9,7 +9,6 @@ class Enemy:
         self.speed = 2
         larg, haut = win.winfo_screenwidth(), win.winfo_screenheight()  
         self.pos = (larg, haut)
-        self.can_enemy = Canvas(win, width=larg, height=500, background='white')
         self.image_png = PhotoImage(file='image/alien.png')
         self.enemy_item = self.can_enemy.create_image(larg/2, haut/2, image=self.image_png)
         self.move()
