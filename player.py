@@ -16,7 +16,7 @@ class Player:
         self.file_bullets = []
         self.nb_tirs = 0
         self.win.root.bind("<space>", self.shoot)
-        self.cooldown_time = 0.3
+        self.cooldown_time = 0.6
         self.last_shot_time = 0.0
 
         # Add labels for life counter and score display

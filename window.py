@@ -20,6 +20,7 @@ class Window:
         self.button= Button(self.root,text='Tchao', command=self.root.destroy)
         self.file_bullets = []
         self.enemy_liste = []
+        self.ilots_list = []
         self.game_over = False
         self.player = Player(self)
         updt = Game_update(self, self.player)
@@ -41,19 +42,30 @@ class Window:
         self.game_over_canvas.place(x=x, y=y)
 
 
-        # Create a game over label
+            # Create a game over label
         game_over_label = Label(
             self.game_over_canvas, text="Game Over", font=("Helvetica", 24), fg="red", background='black'
         )
-        game_over_label.place(relx=0.5, rely=0.5, anchor="center")
+        game_over_label.place(relx=0.5, rely=0.3, anchor="center")
+
+        # Display final score
+        final_score_label = Label(
+            self.game_over_canvas, text=f"Score final: {self.player.score}", font=("Helvetica", 16), fg="white", background='black'
+        )
+        final_score_label.place(relx=0.5, rely=0.4, anchor="center")
+
+        # Display player's rank (based on the score)
+        rank_label = Label(
+            self.game_over_canvas, text=f"Rang: {self.get_player_rank()}", font=("Helvetica", 16), fg="white", background='black'
+        )
+        rank_label.place(relx=0.5, rely=0.5, anchor="center")
 
         # Create restart button
-        restart_button = Button(self.game_over_canvas, text="Restart", command=self.restart_game)
+        restart_button = Button(self.game_over_canvas, text="Rejouer", command=self.restart_game)
         restart_button.place(relx=0.4, rely=0.7, anchor="center")
 
-
         # Create quit button
-        quit_button = Button(self.game_over_canvas, text="Quit", command=self.quit_game)
+        quit_button = Button(self.game_over_canvas, text="Quitter", command=self.quit_game)
         quit_button.place(relx=0.6, rely=0.7, anchor="center")
 
     def restart_game(self):
@@ -83,6 +95,15 @@ class Window:
         updt = Game_update(self, self.player)
 
         # Add additional reset logic if needed
+
+    def get_player_rank(self):
+        # Implement a simple rank calculation based on the final score
+        if self.player.score >= 100:
+            return "Space Ace"
+        elif self.player.score >= 50:
+            return "Galactic Warrior"
+        else:
+            return "Star Cadet"
 
 
     def quit_game(self):

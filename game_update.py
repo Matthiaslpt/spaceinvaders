@@ -1,19 +1,29 @@
 from tkinter import *
 from enemy import Enemy
-import random as r
+from ilots import Ilots
+import random
 
 class Game_update:
     def __init__(self, win, player):
         self.win = win
         self.player = player
         self.enemy_rounds()
+        self.create_obstacles()
         self.check_collisions()
 
     def enemy_rounds(self):
         if len(self.win.enemy_liste) < 6 and not self.win.game_over:
             row, column = len(self.win.enemy_liste) // 6, len(self.win.enemy_liste) % 6
             self.win.enemy_liste.append(Enemy(self.win, row, column))
-            self.win.root.after(r.randint(4000,7000), self.enemy_rounds)
+            self.win.root.after(random.randint(4000, 7000), self.enemy_rounds)
+
+    def create_obstacles(self):
+        num_obstacles = 8
+        for _ in range(num_obstacles):
+            column = random.randint(0, 8)
+            obstacle = Ilots(self.win)
+            obstacle.create_ilots(column)
+            self.win.ilots_list.append(obstacle)
 
     def check_collisions(self):
         if self.player.file_bullets != []:
@@ -53,6 +63,11 @@ class Game_update:
 
         if not self.win.game_over:
             self.win.root.after(10, self.check_collisions)
+
+    def calculate_bbox(self, coords, width, height):
+        x1, y1 = coords[0], coords[1]
+        x2, y2 = x1 + width, y1 + height
+        return x1, y1, x2, y2
 
     def calculate_bbox(self, coords, width, height):
         x1, y1 = coords[0], coords[1]
